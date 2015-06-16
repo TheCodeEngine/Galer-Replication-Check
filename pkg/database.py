@@ -30,11 +30,11 @@ class Cluster:
 		self.password = kwargs.get("password", None)
 		self.dbname = kwargs.get("dbname", "mysql")
 
-		self.init_nodes(nodes)
+		self.init_nodes(nodes, dd=Node())
 		self.init_wsrep_vars()
 	
-	def init_nodes(self, nodes):
-		self.nodes = map(lambda x: Node(host=x, user=self.user, password=self.password, dbname=self.dbname), nodes)
+	def init_nodes(self, nodes, dd):
+		self.nodes = map(lambda x: dd.__class__(host=x, user=self.user, password=self.password, dbname=self.dbname), nodes)
 
 	def init_wsrep_vars(self):
 		self.wsrep_vars = {
