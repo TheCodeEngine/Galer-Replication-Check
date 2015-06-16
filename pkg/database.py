@@ -6,6 +6,8 @@ class Node:
 		self.user = kwargs.get("user")
 		self.password = kwargs.get("password")
 		self.dbname = kwargs.get("dbname")
+		self.wsrep_vars = {}
+		self.db = None
 
 	def run_sql(self, command):
 		if self.db is None:
@@ -18,6 +20,13 @@ class Node:
 
 	def __str__(self):
 		return self.host
+
+	def run(self, var_name, sql_stament):
+		_, rv = self.run_sql(sql_stament)
+		self.wsrep_vars[var_name] = rv
+
+	def get_var(self, variable):
+		return self.wsrep_vars[variable]
 
 	def close(self):
 		if self.db is None:
@@ -32,7 +41,6 @@ class Cluster:
 		self.password = kwargs.get("password", None)
 		self.dbname = kwargs.get("dbname", "mysql")
 
-		print nodes
 		self.init_nodes(nodes)
 		self.init_wsrep_vars()
 	
@@ -67,12 +75,19 @@ class Cluster:
 		"""
 		return len(self.nodes)
 
+	def nodes(self):
+		return self.nodes
+
+	def wsrep_vars(self):
+		return self.wsrep_vars
+
 	def fetch(self, update_call=None):
 		count = 0
 		for node in self.nodes:
-			print node
 			for var_status, vars_dict in self.wsrep_vars.items():
-				for k,v in vars_dict.items():
+				for variable,sql_statement in vars_dict.items():
+					node.run(variable, sql_statement)
 					count = count + 1
 					if update_call is not None:
 						update_call(count)
+

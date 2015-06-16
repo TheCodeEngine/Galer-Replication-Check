@@ -1,5 +1,7 @@
+#!/usr/bin/env python
 import click
 from pkg import Cluster
+from pkg import ClusterTable
 
 class Parameter(object):
     def __init__(self, **kwargs):
@@ -15,13 +17,12 @@ def print_version(ctx, param, value):
     ctx.exit()
 
 @click.group()
-@click.option('--verbose', '-v', is_flag=True, default=True, help='Don`t show output.')
 @click.option('--user', '-i' ,prompt='MySQL User:', default='debian-sys-maint', help='The MySQL User.')
 @click.option('--password', '-p', prompt='MySQL password', hide_input=True, help='The Password for the MySQL User.')
 @click.option('--hosts', '-h', multiple=True, help="A MySQL host, can multiple", default=('127.0.0.1',))
 @click.option('--version', is_flag=True, callback=print_version, expose_value=False, is_eager=True, help='Show Version and Licens Information.')
 @click.pass_context
-def main(ctx, verbose, user, password, hosts):
+def main(ctx, user, password, hosts):
     ctx.obj = Parameter(user=user, password=password, hosts=hosts)
 
 
@@ -31,8 +32,10 @@ def main(ctx, verbose, user, password, hosts):
 def check(ctx, hosts):
     click.echo('\n+--- Checking Cluster Intigrity:')
     cluster = Cluster(nodes=hosts, user=ctx.user, password=ctx.password)
-    with click.progressbar(length=cluster.count(), label='Unzipping archive') as bar:
+    with click.progressbar(length=cluster.count(), label='Fetching Data') as bar:
         cluster.fetch(bar.update)
+    table = ClusterTable(cluster)
+    table.render()
 
 
 @main.command()

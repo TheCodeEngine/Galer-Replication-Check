@@ -23,4 +23,3 @@ def test_get_vars_from_nodes():
 	mock = Cluster
 	mock._create_node = MagicMock(return_value=Node(host='127.0.0.1', user='root', password='123456', dbname='name'))
 	mock = helper_create_cluster()
-	mock.get_wsrep_vars()
