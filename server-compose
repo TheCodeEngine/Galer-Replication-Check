@@ -11,7 +11,7 @@ class Parameter(object):
 def print_version(ctx, param, value):
     if not value or ctx.resilient_parsing:
         return
-    click.echo('Version 1.2.0 Copyright TheCodeEngine\nUnder MIT License http://opensource.org/licenses/MIT')
+    click.echo('Version 1.2.1 Copyright TheCodeEngine\nUnder MIT License http://opensource.org/licenses/MIT')
     ctx.exit()
 
 @click.group()
@@ -26,21 +26,14 @@ def main(ctx):
 @click.option('--password', '-p', prompt='MySQL password', hide_input=True, help='The Password for the MySQL User.')
 @click.option('--hosts', '-h', multiple=True, help="A MySQL host, can multiple", default=('127.0.0.1',))
 @click.pass_obj
-def check(ctx, user, password, hosts):
+def galera_check(ctx, user, password, hosts):
     click.echo('\n+--- Checking Cluster Intigrity:')
     cluster = Cluster(nodes=hosts, user=user, password=password)
     with click.progressbar(length=cluster.count(), label='Fetching Data') as bar:
         cluster.fetch(bar.update)
     table = ClusterTable(cluster)
     table.render()
-
-
-@main.command()
-@click.option('--hash-type', type=click.Choice(['md5', 'sha1']))
-@click.pass_obj
-def do_y(ctx, hash_type):
-    print("This method has these arguments: " + str(ctx.username) + ", " + str(ctx.password))
-
+    
 
 if __name__ == '__main__':
 	main()
