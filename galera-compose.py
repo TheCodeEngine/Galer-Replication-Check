@@ -1,61 +1,5 @@
 import click
-
-class DBHost:
-	def __init__(self, **kwargs):
-		self.host = kwargs.get("host")
-		self.user = kwargs.get("user")
-		self.password = kwargs.get("password")
-		self.dbname = kwargs.get("dbname")
-
-		self.db = MySQLdb.connect(self.host, self.user, self.password, self.dbname)
-
-	def run(self, command):
-		cursor = self.db.cursor()
-		cursor.execute(command)
-		data = cursor.fetchone()
-		return data
-		#return (data or [None])[0]
-
-	def close(self):
-		self.db.close()
-	
-
-class GaleraCheck:
-	def __init__(self, **kwargs):
-		self.host = kwargs.get("host", None)
-		self.user = kwargs.get("user", None)
-		self.password = kwargs.get("password", None)
-		self.dbname = kwargs.get("dbname", "mysql")
-
-		init_db_host()
-		init_wsrep_vars()
-	
-	def init_db_host(self):
-		self.db = DBHost(host=self.host, user=self.user, password=self.password, dbname=self.dbname)
-
-	def init_wsrep_vars(self):
-		self.wsrep_vars = {
-			'cluster-integrity': {
-				'wsrep_cluster_state_uuid': "SHOW GLOBAL STATUS LIKE 'wsrep_cluster_state_uuid';",
-				'wsrep_cluster_conf_id': "SHOW GLOBAL STATUS LIKE 'wsrep_cluster_conf_id';",
-				'wsrep_cluster_size': "SHOW GLOBAL STATUS LIKE 'wsrep_cluster_size';",
-				'wsrep_cluster_status': "SHOW GLOBAL STATUS LIKE 'wsrep_cluster_status';"
-			},
-			'node-status': {
-				'wsrep_ready': "SHOW GLOBAL STATUS LIKE 'wsrep_ready';",
-				'wsrep_connected': "SHOW GLOBAL STATUS LIKE 'wsrep_connected';",
-				'wsrep_local_state_comment': "SHOW GLOBAL STATUS LIKE 'wsrep_local_state_comment';"
-			},
-			'replication-health': {
-				'wsrep_flow_control_paused': "SHOW STATUS LIKE 'wsrep_flow_control_paused';",
-				'wsrep_cert_deps_distance': "SHOW STATUS LIKE 'wsrep_cert_deps_distance';"
-			}
-		}
-
-	def get_wsrep_vars(self):
-
-
-
+from pkg import DBHost
 
 class Parameter(object):
     def __init__(self, **kwargs):
@@ -78,6 +22,8 @@ def print_version(ctx, param, value):
 @click.pass_context
 def main(ctx, verbose, user, password, hosts):
     ctx.obj = Parameter(user=user, password=password)
+    compose.Hello()
+    d = DBHost(host='127.0.0.1', user=user, password=password, dbname='mysql')
 
 
 @main.command()

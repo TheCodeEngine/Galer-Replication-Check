@@ -95,9 +95,6 @@ def test_cluster(human, user, password, hosts):
 
 	checking_cluster_integrity(databases, human)
 
-
-if __name__ == '__main__':
-	test_cluster()
     
 
 
