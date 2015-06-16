@@ -1,4 +1,5 @@
 from pkg import Cluster
+from mock import patch
 
 def test_init():
 	cluster = Cluster()

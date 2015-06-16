@@ -56,6 +56,9 @@ class Cluster:
 		}
 
 	def count(self):
+		"""
+		Return the count of the cluster nodes
+		"""
 		return len(self.nodes)
 
 	def get_wsrep_vars(self):
