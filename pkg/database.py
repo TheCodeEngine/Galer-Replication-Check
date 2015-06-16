@@ -1,6 +1,5 @@
 import MySQLdb
 
-
 class Node:
 	def __init__(self, **kwargs):
 		self.host = kwargs.get("host")
@@ -8,7 +7,7 @@ class Node:
 		self.password = kwargs.get("password")
 		self.dbname = kwargs.get("dbname")
 
-	def run(self, command):
+	def run_sql(self, command):
 		if self.db is None:
 			self.db = MySQLdb.connect(self.host, self.user, self.password, self.dbname)
 		cursor = self.db.cursor()
@@ -16,6 +15,9 @@ class Node:
 		data = cursor.fetchone()
 		return data
 		#return (data or [None])[0]
+
+	def __str__(self):
+		return self.host
 
 	def close(self):
 		if self.db is None:
@@ -30,11 +32,15 @@ class Cluster:
 		self.password = kwargs.get("password", None)
 		self.dbname = kwargs.get("dbname", "mysql")
 
-		self.init_nodes(nodes, dd=Node())
+		print nodes
+		self.init_nodes(nodes)
 		self.init_wsrep_vars()
 	
-	def init_nodes(self, nodes, dd):
-		self.nodes = map(lambda x: dd.__class__(host=x, user=self.user, password=self.password, dbname=self.dbname), nodes)
+	def init_nodes(self, nodes):
+		self.nodes = map(self._create_node, nodes)
+
+	def _create_node(self, node):
+		return Node(host=node, user=self.user, password=self.password, dbname=self.dbname)
 
 	def init_wsrep_vars(self):
 		self.wsrep_vars = {
@@ -61,5 +67,12 @@ class Cluster:
 		"""
 		return len(self.nodes)
 
-	def get_wsrep_vars(self):
-		pass
+	def fetch(self, update_call=None):
+		count = 0
+		for node in self.nodes:
+			print node
+			for var_status, vars_dict in self.wsrep_vars.items():
+				for k,v in vars_dict.items():
+					count = count + 1
+					if update_call is not None:
+						update_call(count)

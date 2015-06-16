@@ -1,5 +1,5 @@
-from pkg import Cluster
-from mock import patch, Mock
+from pkg import Cluster, Node
+from mock import patch, Mock, MagicMock
 
 def test_init():
 	cluster = Cluster()
@@ -20,10 +20,7 @@ def test_init_with_nodes():
 	assert cluster.count() is 3
 
 def test_get_vars_from_nodes():
-	cluster = helper_create_cluster()
-
-	mockFoo = Mock(name = "run")
-	mockFoo.mym.return_value = 'l'
-	assert mockFoo.mym() == 'l'
-
-
+	mock = Cluster
+	mock._create_node = MagicMock(return_value=Node(host='127.0.0.1', user='root', password='123456', dbname='name'))
+	mock = helper_create_cluster()
+	mock.get_wsrep_vars()
