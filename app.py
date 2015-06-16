@@ -5,11 +5,11 @@ from prettytable import PrettyTable
 import time
 
 class MySQLConnection:
-	def __init__(self, host, user, password, dbname):
-		self.host = host
-		self.user = user
-		self.password = password
-		self.dbname = dbname
+	def __init__(self, **kwargs):
+		self.host = kwargs.get("host", None)
+		self.user = kwargs.get("user", None)
+		self.password = kwargs.get("password", None)
+		self.dbname = kwargs.get("dbname", None)
 
 		self.db = MySQLdb.connect(self.host, self.user, self.password, self.dbname)
 
@@ -29,7 +29,7 @@ class MariaDBHost:
 		self.host = kwargs.get("host", None)
 		self.user = kwargs.get("user", None)
 		self.password = kwargs.get("password", None)
-		self.dbname = kwargs.get("dbname", None)
+		self.dbname = kwargs.get("dbname", "mysql")
 
 		self.wsrep_cluster_state_uuid = ''
 		self.wsrep_cluster_conf_id = ''
@@ -40,7 +40,7 @@ class MariaDBHost:
 		return self.host
 
 	def check_cluster_intigrity(self):
-		my = MySQLConnection(self.host, self.user, self.password, self.dbname)
+		my = MySQLConnection(host=self.host, user=self.user, password=self.password, dbname=self.dbname)
 		_, self.wsrep_cluster_state_uuid = my.run("SHOW GLOBAL STATUS LIKE 'wsrep_cluster_state_uuid';")
 		_, self.wsrep_cluster_conf_id = my.run("SHOW GLOBAL STATUS LIKE 'wsrep_cluster_conf_id';")
 		_, self.wsrep_cluster_size = my.run("SHOW GLOBAL STATUS LIKE 'wsrep_cluster_size';")
@@ -91,7 +91,7 @@ def test_cluster(human, user, password, hosts):
 		hosts = ('127.0.0.1',)
 	databases = []
 	for host in hosts:
-		databases.append(MariaDBHost(host=host, user=user, password=password, dbname='mysql'))
+		databases.append(MariaDBHost(host=host, user=user, password=password))
 
 	checking_cluster_integrity(databases, human)
 
