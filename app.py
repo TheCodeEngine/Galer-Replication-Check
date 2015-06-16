@@ -25,11 +25,11 @@ class MySQLConnection:
 
 
 class MariaDBHost:
-	def __init__(self, host, user, password, dbname):
-		self.host = host
-		self.user = user
-		self.password = password
-		self.dbname = dbname
+	def __init__(self, **kwargs):
+		self.host = kwargs.get("host", None)
+		self.user = kwargs.get("user", None)
+		self.password = kwargs.get("password", None)
+		self.dbname = kwargs.get("dbname", None)
 
 		self.wsrep_cluster_state_uuid = ''
 		self.wsrep_cluster_conf_id = ''
@@ -46,6 +46,7 @@ class MariaDBHost:
 		_, self.wsrep_cluster_size = my.run("SHOW GLOBAL STATUS LIKE 'wsrep_cluster_size';")
 		_, self.wsrep_cluster_status = my.run("SHOW GLOBAL STATUS LIKE 'wsrep_cluster_status';")
 		my.close()
+
 
 def checking_cluster_integrity(databases, print_human_resulsts):
 	if print_human_resulsts is False:
@@ -89,8 +90,8 @@ def test_cluster(human, user, password, hosts):
 	if len(hosts) is 0:
 		hosts = ('127.0.0.1',)
 	databases = []
-	for value in hosts:
-		databases.append(MariaDBHost(value, user, password, 'mysql'))
+	for host in hosts:
+		databases.append(MariaDBHost(host=host, user=user, password=password, dbname='mysql'))
 
 	checking_cluster_integrity(databases, human)
 
