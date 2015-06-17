@@ -3,10 +3,11 @@
 ![Travis-CI Build Status](https://travis-ci.org/TheCodeEngine/Galer-Replication-Check.svg?branch=develop "Travis-CI")
 [![Code Climate](https://codeclimate.com/github/TheCodeEngine/Galer-Replication-Check/badges/gpa.svg)](https://codeclimate.com/github/TheCodeEngine/Galer-Replication-Check)
 
-Orchestration tool for administration tasks. 
+Orchestration tool for administration tasks.
 
 ```sh
 $ apt-get install python-mysqldb python-pip
+$ pip install -r requirements.txt
 ```
 
 
