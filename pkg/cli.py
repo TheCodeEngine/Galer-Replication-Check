@@ -20,7 +20,7 @@ class ClusterTable:
 				status = self._get_list_status(attr_list) if status_key == 'cluster-integrity' else ''
 				table.add_row([key]+attr_list+[status])
 			table.add_row(self._create_list_with_empty(self.cluster.count()+2))
-		print table
+		print(table)
 
 	def _get_list_with_vars(self, wsrep_var, nodes):
 		attr_list = map(lambda x: x.get_var(wsrep_var), nodes)
@@ -36,3 +36,8 @@ class ClusterTable:
 			l.append('')
 		return l
 
+
+class AppInfo:
+	@staticmethod
+	def version_info():
+		return 'Version 1.2.1 Copyright TheCodeEngine\nUnder MIT License http://opensource.org/licenses/MIT'
