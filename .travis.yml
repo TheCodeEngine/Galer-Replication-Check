@@ -13,3 +13,5 @@ install:
 # command to run tests
 script:
   - py.test
+notifications:
+  slack: talk-point:WEzco7AhrMqPwQlzhjl3aQbq
