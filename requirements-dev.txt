@@ -1,5 +1,2 @@
-click==4.0
-colorama==0.2.5
-prettytable==0.7.2
-
 mock==1.0.1
+pytest==2.7.1
