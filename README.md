@@ -1,6 +1,6 @@
 # Server-Compose
 
-![Travis-CI Build Status](https://travis-ci.org/TheCodeEngine/Galer-Replication-Check.svg?branch=develop "Travis-CI")
+![Travis-CI Build Status](https://travis-ci.org/TheCodeEngine/server-compose.svg?branch=develop "Travis-CI")
 [![Code Climate](https://codeclimate.com/github/TheCodeEngine/Galer-Replication-Check/badges/gpa.svg)](https://codeclimate.com/github/TheCodeEngine/Galer-Replication-Check)
 [![License](https://poser.pugx.org/laravel/framework/license.svg)]()
 
