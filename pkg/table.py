@@ -17,7 +17,7 @@ class ClusterTable(Table):
 	def render(self):
 		self._render(self.cluster.nodes, self.cluster.wsrep_vars)
 
-	def _render(self, nodes, wsrep_vars):
+	def __render(self, nodes, wsrep_vars):
 
 		table = PrettyTable(['Cluster Intigrity Var'] + nodes + ['Check'])
 		table.align['Cluster Intigrity Var'] = "l"
