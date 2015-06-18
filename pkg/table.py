@@ -12,10 +12,18 @@ class Table(object):
 	def tableArray(self, x, y, fx, fy):
 		return [[fy(y)]+map(fx, x) for y in y]
 
-	def renderTable(self, x, y,fx=None, fy=None, tablefn=None):
+	def renderTable(self, x, y,fx=None, fy=None, fi=None):
 		fx = (lambda x: x) if fx is None else fx
 		fy = (lambda y: y) if fy is None else fy
-		pass
+		lt = self.tableArray(x, y, fx, fy)
+		lf, lr = lt[0], lt[1:]
+
+		table = PrettyTable(lf)
+
+		fi = (lambda l: table.add_row(l)) if fi is None else fi
+		map(fi, lr)
+
+		return table
 
 
 class ClusterTable(Table):
