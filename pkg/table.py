@@ -35,14 +35,11 @@ class ClusterTable(Table):
 		x = self.cluster.nodes if x is None else x
 		y = self.cluster.wsrep_vars if y is None else y
 		table = self.__rendertable(x, y)
-		print(table)
+		return table
 
 	def __rendertable(self, nodes, wsrep_vars):
 		table = PrettyTable(['Cluster Intigrity Var'] + nodes + ['Check'])
 		table.align['Cluster Intigrity Var'] = "l"
-
-		print("Node:", type(nodes))
-		print("WSREP:", type(wsrep_vars))
 
 		for status_key, status_value in wsrep_vars.items():
 			for key, value in status_value.items():

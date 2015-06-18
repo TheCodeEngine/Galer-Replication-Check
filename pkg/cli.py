@@ -17,4 +17,4 @@ class GaleraCLI:
 		with click.progressbar(length=cluster.count(), label='Fetching Data') as bar:
 			cluster.fetch(bar.update)
 		table = ClusterTable(cluster)
-		table.render()
+		print(table.render())
