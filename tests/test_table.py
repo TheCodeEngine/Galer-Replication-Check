@@ -6,22 +6,19 @@ def test_init():
 
 def test_listEqualOK():
 	table = Table()
-
 	listOk = ['1', '1', '1']
 	rv = table.listEqual(listOk)
 	assert rv is True
 
 def test_listEqualError():
 	table = Table()
-
 	listError = ['1', '2', '1']
 	rv = table.listEqual(listError)
 	assert rv is False
 
 def test_renderTableArray():
 	table = Table()
-	array = table.tableArray(['node 1', 'node 2', 'node 3', 'node 4'], ['var 1', 'var 2', 'var 3'])
-
+	array = table.tableArray(['node 1', 'node 2', 'node 3', 'node 4'], ['var 1', 'var 2', 'var 3'], (lambda x: x), (lambda x: x))
 	assert table is not None
 	assert len(array) is 3
 	assert len(array[0]) is 5
@@ -41,14 +38,14 @@ def test_renderTableArrayWithObject():
 	y = ['var 1', 'var 2', 'var 3']
 
 	# Test if rendered Table
-	array = table.tableArray(x, y)
+	array = table.tableArray(x, y, (lambda x: x), (lambda x: x))
 	assert table is not None
 	assert len(array) is 3
 	assert len(array[0]) is 5
 
 	# Test with function
 	fx = lambda x: x.getPara()
-	array = table.tableArray(x, y, fx=fx)
+	array = table.tableArray(x, y, (lambda x: x), (lambda x: x))
 	assert table is not None
 	assert len(array) is 3
 	assert len(array[0]) is 5
