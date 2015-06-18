@@ -20,10 +20,38 @@ def test_listEqualError():
 
 def test_renderTableArray():
 	table = Table()
-	array = table.renderTableArray(['node 1', 'node 2', 'node 3', 'node 4'], ['var 1', 'var 2', 'var 3'])
+	array = table.tableArray(['node 1', 'node 2', 'node 3', 'node 4'], ['var 1', 'var 2', 'var 3'])
 
 	assert table is not None
 	assert len(array) is 3
 	assert len(array[0]) is 5
 	assert array[0][0] is 'var 1'
 	assert array[0][1] is 'node 1'
+
+def test_renderTableArrayWithObject():
+	table = Table()
+	class MyObject(object):
+		def __init__(self, para):
+			self.para = para
+
+		def getPara(self):
+			return self.para
+
+	x = [MyObject('node 1'), MyObject('node 2'), MyObject('node 3'), MyObject('node 4')]
+	y = ['var 1', 'var 2', 'var 3']
+
+	# Test if rendered Table
+	array = table.tableArray(x, y)
+	assert table is not None
+	assert len(array) is 3
+	assert len(array[0]) is 5
+
+	# Test with function
+	fx = lambda x: x.getPara()
+	array = table.tableArray(x, y, fx=fx)
+	assert table is not None
+	assert len(array) is 3
+	assert len(array[0]) is 5
+
+
+

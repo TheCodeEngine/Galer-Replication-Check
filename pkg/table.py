@@ -9,9 +9,8 @@ class Table(object):
 	def listEqual(self, list):
 		return True if all(x == list[0] for x in list) else False
 
-	def renderTableArray(self, x, y, fx=None):
+	def tableArray(self, x, y, fx=None):
 		fx = (lambda x: x) if fx is None else fx
-
 		return [[v]+map(fx, x) for v in y]
 
 
