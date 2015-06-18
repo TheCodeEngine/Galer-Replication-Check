@@ -38,8 +38,12 @@ class ClusterTable(Table):
 		return table
 
 	def __rendertable(self, nodes, wsrep_vars):
-		table = self.renderTable(nodes, wsrep_vars, fx=(lambda x,y: x.getvar(y) if (y is not 'var') else x.getName()), fy=(lambda x: [x]))
+		fx = (lambda x,y: x.getvar(y) if (y is not 'var') else x.getName())
+		fy=(lambda x: [x])
+		table = self.renderTable(nodes, wsrep_vars, fx=fx, fy=fy)
 		table.align["var"] = "l"
+
+
 
 		#table = PrettyTable(['Cluster Intigrity Var'] + nodes + ['Check'])
 		#table.align['Cluster Intigrity Var'] = "l"
@@ -53,12 +57,12 @@ class ClusterTable(Table):
 
 		return table
 
-	def __statusStringListEqual(self, attr_list):
+	def __statusStringListEqual(self, attr_list):						# @todo deprecated
 		ok_style = click.style('OK', fg='green')
 		error_style = click.style('Error', bold=True, fg='red')
 
 		return ok_style if self.listEqual(attr_list) else error_style
 
-	def __get_list_with_vars(self, wsrep_var, nodes):
+	def __get_list_with_vars(self, wsrep_var, nodes):					# todo @deprecated
 		attr_list = map(lambda x: x.getvar(wsrep_var), nodes)
 		return attr_list
