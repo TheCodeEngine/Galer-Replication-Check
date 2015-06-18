@@ -38,6 +38,10 @@ class ClusterTable(Table):
 		return table
 
 	def __rendertable(self, nodes, wsrep_vars):
+
+		print(nodes)
+		print(wsrep_vars)
+
 		table = self.renderTable(nodes, wsrep_vars, (lambda x,y: x.getvar(y) if (y is not 'var') else x.getName()), (lambda x: [x]))
 
 		#table = PrettyTable(['Cluster Intigrity Var'] + nodes + ['Check'])
