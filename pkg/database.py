@@ -25,7 +25,7 @@ class Node:
 		_, rv = self.run_sql(sql_stament)
 		self.wsrep_vars[var_name] = rv
 
-	def get_var(self, variable):
+	def getvar(self, variable):
 		return self.wsrep_vars[variable]
 
 	def close(self):
