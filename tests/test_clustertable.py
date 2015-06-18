@@ -18,4 +18,4 @@ def test_render():
 	x = [Node('n1'), Node('n2'), Node('n3')]
 	y = ['var1', 'var2', 'var3']
 
-	t = table.render(x, y)
+	#t = table.render(x, y)

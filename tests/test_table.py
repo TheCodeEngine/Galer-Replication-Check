@@ -65,3 +65,4 @@ def test_renderTable():
 	assert t is not None
 	assert isinstance(t, str) is True
 
+
