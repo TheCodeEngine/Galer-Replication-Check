@@ -31,18 +31,35 @@ class ClusterTable(Table):
 		super(ClusterTable, self).__init__()
 		self.cluster = cluster
 
-	def render(self, x=None, y=None):
-		x = self.cluster.node if x is None else x
-		y = self.cluster.wsrep_vars if y is None else y
-		table = self.__rendertable(x, y)
+	# def render(self, x=None, y=None):
+	# 	x = self.cluster.node if x is None else x
+	# 	y = self.cluster.wsrep_vars if y is None else y
+	# 	table = self.__rendertable(x, y)
+	# 	print(table)
+    #
+	# def __rendertable(self, nodes, wsrep_vars):
+	# 	table = PrettyTable(['Cluster Intigrity Var'] + nodes + ['Check'])
+	# 	table.align['Cluster Intigrity Var'] = "l"
+    #
+	# 	print("Node:", type(nodes))
+	# 	print("WSREP:", type(wsrep_vars))
+    #
+	# 	for status_key, status_value in wsrep_vars.items():
+	# 		for key, value in status_value.items():
+	# 			attr_list = self.__get_list_with_vars(key, nodes)
+	# 			status = self.__statusStringListEqual(attr_list) if status_key == 'cluster-integrity' else ''
+	# 			table.add_row([key] + attr_list + [status])
+	# 		table.add_row([''] * (self.cluster.count() + 2))
+    #
+	# 	return table
+
+	def render(self):
+		table = self.__rendertable(self.cluster.nodes, self.cluster.wsrep_vars)
 		print(table)
 
 	def __rendertable(self, nodes, wsrep_vars):
 		table = PrettyTable(['Cluster Intigrity Var'] + nodes + ['Check'])
 		table.align['Cluster Intigrity Var'] = "l"
-
-		print("Node:", type(nodes))
-		print("WSREP:", type(wsrep_vars))
 
 		for status_key, status_value in wsrep_vars.items():
 			for key, value in status_value.items():
