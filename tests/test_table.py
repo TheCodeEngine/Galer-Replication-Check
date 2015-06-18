@@ -21,7 +21,7 @@ def test_tableArray():
 	x = ['node 1', 'node 2', 'node 3', 'node 4']
 	y = ['var 1', 'var 2', 'var 3']
 
-	array = table.tableArray(x, y, (lambda x: x), (lambda x: x))
+	array = table.tableArray(x, y, (lambda x,y: x), (lambda x: [x]))
 	assert table is not None
 	assert len(array) is 3
 	assert len(array[0]) is 5
@@ -41,14 +41,14 @@ def test_tableArrayWithObject():
 	y = ['var 1', 'var 2', 'var 3']
 
 	# Test if rendered Table
-	array = table.tableArray(x, y, (lambda x: x), (lambda x: x))
+	array = table.tableArray(x, y, (lambda x,y: x), (lambda x: [x]))
 	assert table is not None
 	assert len(array) is 3
 	assert len(array[0]) is 5
 
 	# Test with function
 	fx = lambda x: x.getPara()
-	array = table.tableArray(x, y, (lambda x: x), (lambda x: x))
+	array = table.tableArray(x, y, (lambda x,y: x), (lambda x: [x]))
 	assert table is not None
 	assert len(array) is 3
 	assert len(array[0]) is 5

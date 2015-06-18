@@ -10,11 +10,12 @@ class Table(object):
 		return True if all(x == list[0] for x in list) else False
 
 	def tableArray(self, x, y, fx, fy):
-		return [[fy(y)]+map(fx, x) for y in y]
+		#return [[fy(y)]+map(fx, x) for y in y]
+		return [fy(y)+[fx(z,y) for z in x] for y in y]
 
 	def renderTable(self, x, y,fx=None, fy=None, fi=None):
-		fx = (lambda x: x) if fx is None else fx
-		fy = (lambda y: y) if fy is None else fy
+		fx = (lambda x,y: x) if fx is None else fx
+		fy = (lambda y: [y]) if fy is None else fy
 		lt = self.tableArray(x, y, fx, fy)
 		lf, lr = lt[0], lt[1:]
 
