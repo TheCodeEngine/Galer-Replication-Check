@@ -33,7 +33,7 @@ class ClusterTable(Table):
 
 	def render(self, x=None, y=None):
 		x = self.cluster.node if x is None else x
-		y = self.cluster.node if y is None else y
+		y = self.cluster.wsrep_vars if y is None else y
 		table = self.__rendertable(x, y)
 		print(table)
 
