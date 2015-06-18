@@ -87,6 +87,9 @@ class Cluster:
 	def wsrep_vars(self):
 		return self.wsrep_vars
 
+	def wsrep_vars_values(self):
+		return reduce(lambda x,y: x+y, [self.wsrep_vars[z].keys() for z in self.wsrep_vars])
+
 	def fetch(self, update_call=None):
 		count = 0
 		for node in self.nodes:

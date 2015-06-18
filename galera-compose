@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 import click
-from pkg import Cluster
-from pkg import ClusterTable
-from pkg import AppInfo
+from pkg.cli import AppInfo
 from pkg.cli import GaleraCLI
 
 
@@ -26,12 +24,10 @@ def main(ctx):
 @click.option('--hosts', '-h', multiple=True, help="A MySQL host, can multiple", default=('127.0.0.1',))
 @click.pass_obj
 def check(ctx, user, password, hosts):
-    GaleraCLI.check(user, password, hosts)
-    #try:
-    #    GaleraCLI.check(user, password, hosts)
-    #except Exception as e:
-
-     #   click.echo(click.style("\nException: ", fg='red')+"{0}".format(e))
+    try:
+        GaleraCLI.check(user, password, hosts)
+    except Exception as e:
+        click.echo(click.style("\nException: ", fg='red')+"{0}".format(e))
 
 
 if __name__ == '__main__':

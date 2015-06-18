@@ -36,8 +36,9 @@ def test_render():
 				'wsrep_cert_deps_distance': "SHOW STATUS LIKE 'wsrep_cert_deps_distance';"
 			},
 			'var': {
-				'var': "SHOW STATUS LIKE 'wsrep_flow_control_paused';"
+				'var': ""
 			}}
 
 	t = str(table.render(x, y))
+	assert isinstance(t, str) is True
 	print(t)

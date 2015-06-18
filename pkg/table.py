@@ -33,27 +33,13 @@ class ClusterTable(Table):
 
 	def render(self, x=None, y=None):
 		x = self.cluster.nodes if x is None else x
-		y = wsrep_vars = reduce(lambda x,y: x+y, [self.cluster.wsrep_vars[z].keys() for z in self.cluster.wsrep_vars]) if y is None else y
+		y = wsrep_vars = self.cluster.wsrep_vars_values if y is None else y
 		table = self.__rendertable(x, y)
 		return table
 
 	def __rendertable(self, nodes, wsrep_vars):
-
-		print(nodes)
-		print(wsrep_vars)
-
 		table = self.renderTable(nodes, wsrep_vars, (lambda x,y: x.getvar(y) if (y is not 'var') else x.getName()), (lambda x: [x]))
-
-		#table = PrettyTable(['Cluster Intigrity Var'] + nodes + ['Check'])
-		#table.align['Cluster Intigrity Var'] = "l"
-#
-		#for status_key, status_value in wsrep_vars.items():
-		#	for key, value in status_value.items():
-		#		attr_list = self.__get_list_with_vars(key, nodes)
-		#		status = self.__statusStringListEqual(attr_list) if status_key == 'cluster-integrity' else ''
-		#		table.add_row([key] + attr_list + [status])
-		#	table.add_row([''] * (self.cluster.count() + 2))
-
+		table.align["var"] = "l"
 		return table
 
 	def __statusStringListEqual(self, attr_list):
