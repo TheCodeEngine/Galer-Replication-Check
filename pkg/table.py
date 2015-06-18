@@ -18,7 +18,7 @@ class Table(object):
 		lt = self.tableArray(x, y, fx, fy)
 		lf, lr = lt[0], lt[1:]
 
-		table = PrettyTable()
+		table = PrettyTable(lf)
 
 		fi = (lambda l: table.add_row(l)) if fi is None else fi
 		map(fi, lr)

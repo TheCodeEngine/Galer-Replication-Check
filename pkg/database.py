@@ -71,7 +71,7 @@ class Cluster:
 				'wsrep_cert_deps_distance': "SHOW STATUS LIKE 'wsrep_cert_deps_distance';"
 			},
 			'var': {
-				'': "SHOW STATUS LIKE 'wsrep_flow_control_paused';"
+				'var': "SHOW STATUS LIKE 'wsrep_flow_control_paused';"
 			}
 		}
 
