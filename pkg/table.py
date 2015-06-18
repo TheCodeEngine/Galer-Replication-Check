@@ -10,7 +10,6 @@ class Table(object):
 		return True if all(x == list[0] for x in list) else False
 
 	def tableArray(self, x, y, fx, fy):
-		#return [[fy(y)]+map(fx, x) for y in y]
 		return [fy(y)+[fx(z,y) for z in x] for y in y]
 
 	def renderTable(self, x, y,fx=None, fy=None, fi=None):
@@ -34,12 +33,11 @@ class ClusterTable(Table):
 
 	def render(self, x=None, y=None):
 		x = self.cluster.nodes if x is None else x
-		y = self.cluster.wsrep_vars if y is None else y
+		y = wsrep_vars = reduce(lambda x,y: x+y, [self.cluster.wsrep_vars[z].keys() for z in self.cluster.wsrep_vars]) if y is None else y
 		table = self.__rendertable(x, y)
 		return table
 
 	def __rendertable(self, nodes, wsrep_vars):
-
 		table = self.renderTable(nodes, wsrep_vars, (lambda x,y: x.getvar(y) if (y is not 'var') else x.getName()), (lambda x: [x]))
 
 		#table = PrettyTable(['Cluster Intigrity Var'] + nodes + ['Check'])
