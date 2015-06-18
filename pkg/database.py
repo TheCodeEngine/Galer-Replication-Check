@@ -28,6 +28,9 @@ class Node:
 	def getvar(self, variable):
 		return self.wsrep_vars[variable]
 
+	def getName(self):
+		return self.host
+
 	def close(self):
 		if self.db is None:
 			pass
@@ -66,6 +69,9 @@ class Cluster:
 			'replication-health': {
 				'wsrep_flow_control_paused': "SHOW STATUS LIKE 'wsrep_flow_control_paused';",
 				'wsrep_cert_deps_distance': "SHOW STATUS LIKE 'wsrep_cert_deps_distance';"
+			},
+			'var': {
+				'': "SHOW STATUS LIKE 'wsrep_flow_control_paused';"
 			}
 		}
 
