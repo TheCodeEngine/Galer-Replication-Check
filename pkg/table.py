@@ -9,9 +9,13 @@ class Table(object):
 	def listEqual(self, list):
 		return True if all(x == list[0] for x in list) else False
 
-	def tableArray(self, x, y, fx=None):
+	def tableArray(self, x, y, fx=None, fy=None):
 		fx = (lambda x: x) if fx is None else fx
-		return [[v]+map(fx, x) for v in y]
+		fy = (lambda y: y) if fy is None else fy
+		return [[fy(y)]+map(fx, x) for y in y]
+
+	def renderTable(self, x, y,fx, fy):
+		pass
 
 
 class ClusterTable(Table):
