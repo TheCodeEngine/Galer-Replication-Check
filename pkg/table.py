@@ -1,12 +1,19 @@
 import click
 from prettytable import PrettyTable
 
+
 class Table(object):
 	def __init__(self):
 		super(Table, self).__init__()
 
 	def listEqual(self, list):
 		return True if all(x == list[0] for x in list) else False
+
+	def renderTableArray(self, x, y, fx=None):
+		fx = (lambda x: x) if fx is None else fx
+
+		return [[v]+map(fx, x) for v in y]
+
 
 class ClusterTable(Table):
 	def __init__(self, cluster):
@@ -18,7 +25,6 @@ class ClusterTable(Table):
 		print(table)
 
 	def __rendertable(self, nodes, wsrep_vars):
-
 		table = PrettyTable(['Cluster Intigrity Var'] + nodes + ['Check'])
 		table.align['Cluster Intigrity Var'] = "l"
 
