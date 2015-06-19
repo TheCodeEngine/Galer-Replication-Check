@@ -16,7 +16,6 @@ class Node:
 		cursor.execute(command)
 		data = cursor.fetchone()
 		return data
-		#return (data or [None])[0]
 
 	def __str__(self):
 		return self.host
