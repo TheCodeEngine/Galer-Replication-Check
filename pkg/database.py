@@ -99,3 +99,5 @@ class Cluster:
 					if update_call is not None:
 						update_call(count)
 
+	def check(self):
+		pass
