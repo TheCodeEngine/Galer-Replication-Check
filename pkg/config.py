@@ -13,7 +13,7 @@ class Config(object):
         Konstruktor
         :type files: tuple
         """
-        if files is not isinstance(files, tuple):
+        if not isinstance(files, tuple):
             raise ValueError('The Parameter files must be a tuple')
 
         self.config_files = list(files)

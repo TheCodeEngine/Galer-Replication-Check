@@ -1,4 +1,4 @@
-from pkg.config import ConfigParser
+from pkg.config import Config
 
 def test_init():
-    c = ConfigParser(files=('/etc/mysql/debian.cnf', '/etc/mysql/my.cnf'))
+    c = Config(files=('/etc/mysql/debian.cnf', '/etc/mysql/my.cnf'))
