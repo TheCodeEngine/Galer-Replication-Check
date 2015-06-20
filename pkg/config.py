@@ -1,8 +1,8 @@
 import os
 try:
-    from configparser import ConfigParser
-except:
     import ConfigParser
+except:
+    from configparser import ConfigParser
 """parse config files
 """
 
