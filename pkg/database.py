@@ -1,4 +1,5 @@
-import MySQLdb
+import pymysql
+from functools import reduce
 
 class Node:
 	def __init__(self, **kwargs):
@@ -11,7 +12,7 @@ class Node:
 
 	def run_sql(self, command):
 		if self.db is None:
-			self.db = MySQLdb.connect(self.host, self.user, self.password, self.dbname)
+			self.db = pymysql.connect(host=self.host, user=self.user, passwd=self.password, db=self.dbname)
 		cursor = self.db.cursor()
 		cursor.execute(command)
 		data = cursor.fetchone()
@@ -78,7 +79,7 @@ class Cluster:
 		"""
 		Return the count of the cluster nodes
 		"""
-		return len(self.nodes)
+		return len(list(self.nodes))
 
 	def nodes(self):
 		return self.nodes
@@ -87,7 +88,7 @@ class Cluster:
 		return self.wsrep_vars
 
 	def wsrep_vars_values(self):
-		return reduce(lambda x,y: x+y, [self.wsrep_vars[z].keys() for z in self.wsrep_vars])
+		return reduce(lambda x,y: list(x)+list(y), [self.wsrep_vars[z].keys() for z in self.wsrep_vars])
 
 	def fetch(self, update_call=None):
 		count = 0
