@@ -28,5 +28,4 @@ class Config(object):
         """
         exists = filter(lambda x: file.can_access(x), self.config_files)
         self.config = [self.cfg.read(z) for z in exists]
-
-
+        return self.config
