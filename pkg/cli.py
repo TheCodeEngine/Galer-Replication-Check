@@ -14,12 +14,13 @@ class GaleraCLI:
 	@staticmethod
 	def check(hosts, user=None, password=None, config_files=('/etc/mysql/debian.cfg',)):
 		print(user, password)
-		c = Config(files=config_files)
 		if user is None:
-			#user = c.search_first('client', 'user')
+			c = Config(files=config_files)
+			user = c.search_first('client', 'user')
 			user = user if user is not None else 'debian-sys-main'
 		if password is None:
-			password = c.search_first('client', 'password')
+			c2 = Config(files=config_files)
+			password = c2.search_first('client', 'password')
 			print password
 			password = password if password is not None else ''
 
