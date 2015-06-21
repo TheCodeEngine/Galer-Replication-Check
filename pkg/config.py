@@ -18,7 +18,7 @@ class Config(object):
             raise ValueError('The Parameter files must be a tuple')
 
         self.config_files = list(files)
-        self.cfg = ConfigParser.ConfigParser()
+        self.cfg = None
         self.config = []
         self.load()
 
@@ -38,6 +38,7 @@ class Config(object):
         :param varname: string of a variable
         :return: list of variables that founds
         """
+        self.cfg = ConfigParser.ConfigParser()
         return [self.__exists_in_config(z, section, varname) for z in self.config]
 
     def search_first(self, section, varname):
