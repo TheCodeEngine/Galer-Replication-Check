@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 import click
 from pkg.cli import AppInfo
 from pkg.cli import GaleraCLI
@@ -22,8 +22,9 @@ def main(ctx):
 @click.option('--user', '-i' ,prompt='MySQL User:', default='debian-sys-maint', help='The MySQL User.')
 @click.option('--password', '-p', prompt='MySQL password', hide_input=True, help='The Password for the MySQL User.')
 @click.option('--hosts', '-h', multiple=True, help="A MySQL host, can multiple", default=('127.0.0.1',))
+@click.option('--config-file', '-c', multiple=True, help="A MySQL host, can multiple", default=('127.0.0.1',))
 @click.pass_obj
-def check(ctx, user, password, hosts):
+def check(ctx, user, password, hosts, config_file):
     try:
         GaleraCLI.check(user, password, hosts)
     except Exception as e:
