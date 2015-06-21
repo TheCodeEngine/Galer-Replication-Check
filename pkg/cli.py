@@ -28,3 +28,5 @@ class GaleraCLI:
 			cluster.fetch(bar.update)
 		table = ClusterTable(cluster)
 		print(table.render())
+
+		cluster.check(ok=click.style('OK', fg='green'), error=click.style('Error', bold=True, fg='red'))

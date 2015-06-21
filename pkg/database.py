@@ -1,3 +1,4 @@
+from __future__ import print_function
 import pymysql
 from functools import reduce
 
@@ -100,5 +101,26 @@ class Cluster:
 					if update_call is not None:
 						update_call(count)
 
-	def check(self):
-		pass
+	def check(self, ok, error):
+		list_keys = [
+			'wsrep_cluster_status',
+			'wsrep_cluster_size',
+			'wsrep_cluster_conf_id',
+			'wsrep_cluster_state_uuid'
+		]
+		list_vars = self.__check_generate_values(list_keys)
+		f = lambda l: ok if all(x == l[0] for x in l) else error
+		list_vars_reduce = [f(z) for z in list_vars]
+
+		self.__print_check(list_keys, list_vars_reduce)
+
+	def __check_generate_values(self, list_keys):
+		return [[n.getvar(v) for n in self.nodes] for v in list_keys]
+
+	def __print_check(self, list_keys, list_vars):
+		l = zip(list_keys, list_vars)
+
+		print('\nCluster-Status:')
+		f = lambda xy: print("{1} \t {0}".format(xy[0],xy[1]))
+		[f(z) for z in l]
+
