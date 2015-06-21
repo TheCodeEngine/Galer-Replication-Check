@@ -40,6 +40,16 @@ class Config(object):
         """
         return [self.__exists_in_config(z, section, varname) for z in self.config]
 
+    def search_first(self, section, varname):
+        """
+        search a variable in the config files and return the value
+        :param section: string of a section
+        :param varname: string of a variable
+        :return: return the first element when something found or None
+        """
+        list = self.search(section, varname)
+        return list[0] if len(list) > 0 else None
+
     def __exists_in_config(self, file, section, var_name):
         """
         search in config file in section to varname and return this
