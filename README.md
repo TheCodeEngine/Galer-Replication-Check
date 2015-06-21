@@ -7,15 +7,15 @@
 Orchestration tool for administration tasks.
 
 ```sh
-$ apt-get install python-mysqldb python-pip
+$ apt-get install python-pip
 $ pip install -r requirements.txt
 ```
 
 
 ## Galera Cluster
 
-Check the status of the galera cluster
+Check the status of the galera cluster. It parse the password and the user for mysql from config files.
 
 ```sh
-$ ./server-compose check -h ip1 -h ip2 -h ip3
+$ ./galera-compose check -h ip1 -h ip2 -h ip3
 ```
