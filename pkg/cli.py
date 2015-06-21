@@ -1,6 +1,7 @@
 import click
 from pkg.database import Cluster
 from pkg.table import ClusterTable
+from pkg.config import Config
 
 
 class AppInfo:
@@ -11,7 +12,16 @@ class AppInfo:
 
 class GaleraCLI:
 	@staticmethod
-	def check(user, password, hosts):
+	def check(hosts, user=None, password=None, config_files=None):
+		if user is None:
+			c = Config(files=config_files)
+			user = c.search_first('client', 'user')
+			user = user if user is not None else click.prompt('MySQL User')
+		if password is None:
+			c2 = Config(files=config_files)
+			password = c2.search_first('client', 'password')
+			password = password if password is not None else click.prompt('MySQL password', hide_input=True)
+
 		click.echo('\n+--- Checking Cluster Intigrity:')
 		cluster = Cluster(nodes=hosts, user=user, password=password)
 		with click.progressbar(length=cluster.count(), label='Fetching Data') as bar:

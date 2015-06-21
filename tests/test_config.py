@@ -29,5 +29,8 @@ def test_search_var():
     var = c.search('client', 'password')
     assert var == ['meinpassword', 'meinpassword']
 
+    var = c.search_first('client', 'password')
+    assert var == 'meinpassword'
+
     var = c.search('client', 'ttet')
     assert var == [None, None]
