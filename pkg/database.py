@@ -23,8 +23,11 @@ class Node:
 		return self.host
 
 	def run(self, var_name, sql_stament):
-		_, rv = self.run_sql(sql_stament)
-		self.wsrep_vars[var_name] = rv
+		try:
+			_, rv = self.run_sql(sql_stament)
+			self.wsrep_vars[var_name] = rv
+		except:
+			self.wsrep_vars[var_name] = None
 
 	def getvar(self, variable):
 		return self.wsrep_vars[variable]
@@ -101,7 +104,7 @@ class Cluster:
 					if update_call is not None:
 						update_call(count)
 
-	def check(self, ok, error):
+	def check(self, ok_style=True, error_style=False):
 		list_keys = [
 			'wsrep_cluster_status',
 			'wsrep_cluster_size',
@@ -109,18 +112,23 @@ class Cluster:
 			'wsrep_cluster_state_uuid'
 		]
 		list_vars = self.__check_generate_values(list_keys)
-		f = lambda l: ok if all(x == l[0] for x in l) else error
+		f = lambda l: True if all(x == l[0] for x in l) else False
 		list_vars_reduce = [f(z) for z in list_vars]
 
-		self.__print_check(list_keys, list_vars_reduce)
+		error = reduce(lambda x,y: x and y, list_vars_reduce)
+
+		self.__print_check(list_keys, list_vars_reduce, ok_style, error_style)
+
+		return error
 
 	def __check_generate_values(self, list_keys):
 		return [[n.getvar(v) for n in self.nodes] for v in list_keys]
 
-	def __print_check(self, list_keys, list_vars):
+	def __print_check(self, list_keys, list_vars, ok_style, error_style):
 		l = zip(list_keys, list_vars)
 
 		print('\nCluster-Status:')
-		f = lambda xy: print("{1} \t {0}".format(xy[0],xy[1]))
+		fnpoe = lambda x: ok_style if x == True else error_style
+		f = lambda xy: print("{1} \t {0}".format(xy[0],fnpoe(xy[1])))
 		[f(z) for z in l]
 
