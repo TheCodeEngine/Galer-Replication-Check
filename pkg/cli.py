@@ -1,38 +1,35 @@
-from prettytable import PrettyTable
 import click
+from pkg.database import Cluster
+from pkg.table import ClusterTable
+from pkg.config import Config
 
-class ClusterTable:
 
-	def __init__(self, cluster):
-		self.cluster = cluster
+class AppInfo:
+	@staticmethod
+	def version_info():
+		return 'Version 1.3.0 Copyright TheCodeEngine\nUnder MIT License http://opensource.org/licenses/MIT'
 
-	def render(self):
-		self._render(self.cluster.nodes, self.cluster.wsrep_vars)
 
-	def _render(self, nodes, wsrep_vars):
+class GaleraCLI:
+	@staticmethod
+	def check(hosts, user=None, password=None, config_files=None):
+		if user is None:
+			c = Config(files=config_files)
+			user = c.search_first('client', 'user')
+			user = user if user is not None else click.prompt('MySQL User')
+		if password is None:
+			c2 = Config(files=config_files)
+			password = c2.search_first('client', 'password')
+			password = password if password is not None else click.prompt('MySQL password', hide_input=True)
 
-		table = PrettyTable(['Cluster Intigrity Var']+nodes+['Check'])
-		table.align['Cluster Intigrity Var'] = "l"
+		click.echo('\n+--- Checking Cluster Intigrity:')
+		cluster = Cluster(nodes=hosts, user=user, password=password)
+		with click.progressbar(length=cluster.count(), label='Fetching Data') as bar:
+			cluster.fetch(bar.update)
+		table = ClusterTable(cluster)
+		print(table.render())
 
-		for status_key,status_value in wsrep_vars.items():
-			for key,value in status_value.items():
-				attr_list = self._get_list_with_vars(key, nodes)
-				status = self._get_list_status(attr_list) if status_key == 'cluster-integrity' else ''
-				table.add_row([key]+attr_list+[status])
-			table.add_row(self._create_list_with_empty(self.cluster.count()+2))
-		print table
-
-	def _get_list_with_vars(self, wsrep_var, nodes):
-		attr_list = map(lambda x: x.get_var(wsrep_var), nodes)
-		return attr_list
-
-	def _get_list_status(self, attr_list): # @todo TESTING
-		status = click.style('OK', fg='green') if all(x == attr_list[0] for x in attr_list) else click.style('Error', bold=True, fg='red')
-		return status
-
-	def _create_list_with_empty(self, count):
-		l = []
-		for i in range(count):
-			l.append('')
-		return l
-
+		is_ok = cluster.check(ok_style=click.style('OK', fg='green'), error_style=click.style('Error', bold=True, fg='red'))
+		if is_ok is False:
+			print('\nExit with 1')
+			exit(1)
