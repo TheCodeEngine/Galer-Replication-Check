@@ -1,7 +1,7 @@
 """parse config files
 """
-import os
 import ConfigParser
+from pkg import file
 
 
 class Config(object):
@@ -21,18 +21,12 @@ class Config(object):
         self.config = []
         self.load()
 
-    def __can_access(self, path):
-        """
-        Check is the file exists and readable
-        :param path: string to file
-        :return: None or config
-        """
-        return True if os.path.isfile(path) and os.access(path, os.R_OK) else False
-
     def load(self):
         """
         Load config file
         :return:
         """
-        exists = filter(lambda x: self.__can_access(x), self.config_files)
+        exists = filter(lambda x: file.can_access(x), self.config_files)
+        self.config = [self.cfg.read(z) for z in exists]
+
 
