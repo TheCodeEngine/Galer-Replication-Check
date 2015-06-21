@@ -19,10 +19,10 @@ def main(ctx):
 
 
 @main.command()
-@click.option('--user', '-i', help='The MySQL User.')
+@click.option('--user', '-u', help='The MySQL User.')
 @click.option('--password', '-p', help='The Password for the MySQL User.')
 @click.option('--hosts', '-h', multiple=True, help="A MySQL host, can multiple", default=('127.0.0.1',))
-@click.option('--config-file', '-c', multiple=True, help="A MySQL host, can multiple", default=('127.0.0.1',))
+@click.option('--config-file', '-c', multiple=True, help="Config files to parse from", default=('/etc/mysql/debian.cnf',))
 @click.pass_obj
 def check(ctx, user, password, hosts, config_file):
     try:
