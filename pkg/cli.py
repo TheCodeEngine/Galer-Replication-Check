@@ -20,6 +20,7 @@ class GaleraCLI:
 			user = user if user is not None else 'debian-sys-main'
 		if password is None:
 			password = c.search_first('client', 'password')
+			print password
 			password = password if password is not None else ''
 
 		print(user, password)
