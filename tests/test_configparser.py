@@ -28,3 +28,6 @@ def test_search_var():
 
     var = c.search('client', 'password')
     assert var == ['meinpassword', 'meinpassword']
+
+    var = c.search('client', 'ttet')
+    assert var == [None, None]
