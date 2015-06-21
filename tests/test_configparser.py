@@ -3,7 +3,7 @@ import os
 import sys
 
 def test_init():
-    c = Config(files=('/etc/mysql/debian.cnf', '/etc/mysql/my.cnf'))
+    c = Config(files=('/etc/mysql/debian123.cnf', '/etc/mysql/my123.cnf'))
     assert c is not None
 
 def test_load():
@@ -14,6 +14,6 @@ def test_load():
     assert cfgs is not None
 
 def test_load_empty_list():
-    c = Config(files=('/etc/mysql/my.cnf',))
+    c = Config(files=('/etc/mysql/my123.cnf',))
     cfgs = c.load()
     assert len(cfgs) is 0
