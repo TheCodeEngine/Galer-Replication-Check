@@ -8,7 +8,7 @@ def test_init():
 
 def test_load():
     test_file_1 =  os.path.join(os.path.dirname(os.path.realpath(__file__)), "test_files/debian.cfg")
-    c = Config(files=(test_file_1, '/etc/mysql/my.cnf'))
+    c = Config(files=(test_file_1, '/etc/mysql/my123.cnf'))
     cfgs = c.load()
     assert test_file_1 is not None
     assert cfgs is not None
