@@ -28,3 +28,8 @@ class GaleraCLI:
 			cluster.fetch(bar.update)
 		table = ClusterTable(cluster)
 		print(table.render())
+
+		is_ok = cluster.check(ok_style=click.style('OK', fg='green'), error_style=click.style('Error', bold=True, fg='red'))
+		if is_ok is False:
+			print('\nExit with 1')
+			exit(1)
